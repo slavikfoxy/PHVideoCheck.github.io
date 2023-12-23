@@ -31,10 +31,6 @@ jobs:
           name: my-artifacts
           path: .  # Вказано ".", щоб артефакти завантажилися в корінь проекту
 
-  deploy:
-    runs-on: ubuntu-latest
-
-    steps:
       - name: Download Artifacts
         uses: actions/download-artifact@v2
         with:
