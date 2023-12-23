@@ -154,7 +154,7 @@ def compare_json_files_by_keywords(file1, output_file):
                 # Якщо URL існує, скачуємо зображення та додаємо тег зображення в HTML файл
                 if image_url:
                     html_file.write(f'<p>-----------------{data2.index(element)}------------------------</p>\n')
-                    image_filenamee = f'img/{extract_keyword_key(element.get('video.url', {}))}.jp'
+                    image_filenamee = f'img/{extract_keyword_key(element.get("video.url", {}))}.jp'
                     #download_image(image_url, image_filename)
                     html_file.write(f'<p>Video url: {element.get('video.url', {})}</p>\n')
                     html_file.write(f'<p>Video img url: {element.get('video.image.url', {})}</p>\n')
