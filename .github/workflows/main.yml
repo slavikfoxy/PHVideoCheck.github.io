@@ -2,7 +2,7 @@ name: "PHVC"
 
 on:
   schedule:
-    - cron: "0 0,12 * * *"  # Minute/Hour/Day/Month/Weekday (UTC)
+    - cron: "0 0,8,16 * * *"  # Minute/Hour/Day/Month/Weekday (UTC)
   workflow_dispatch:
 
 jobs:
@@ -25,18 +25,8 @@ jobs:
           pip install -r requirements.txt
           python3 ./CheckMissVideo.py
           
-      - name: Archive Artifacts
+      - name: Upload new files
         uses: actions/upload-artifact@v2
         with:
           name: my-artifacts
-          path: .  # Вказано ".", щоб артефакти завантажилися в корінь проекту
-
-      - name: Download Artifacts
-        uses: actions/download-artifact@v2
-        with:
-          name: my-artifacts
-
-      - name: Restore Artifacts
-        run: |
-          # Тут ви можете скопіювати або пересунути файли з завантажених артефактів
-          cp -r my-artifacts/* .
+          path: . # Шлях до каталогу з новими файлами
