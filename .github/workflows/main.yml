@@ -5,9 +5,6 @@ on:
     - cron: "0 0,12 * * *"  # Minute/Hour/Day/Month/Weekday (UTC)
   workflow_dispatch:
 
-env:
-  RUN_ENV: 'prod'
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -16,9 +13,6 @@ jobs:
     steps:
       - name: Checkout master
         uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-          # ref: master
 
       - name: Set up python
         uses: actions/setup-python@v2
@@ -30,3 +24,23 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           python3 ./CheckMissVideo.py
+          
+      - name: Archive Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: my-artifacts
+          path: .  # Вказано ".", щоб артефакти завантажилися в корінь проекту
+
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download Artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: my-artifacts
+
+      - name: Restore Artifacts
+        run: |
+          # Тут ви можете скопіювати або пересунути файли з завантажених артефактів
+          cp -r my-artifacts/* .
