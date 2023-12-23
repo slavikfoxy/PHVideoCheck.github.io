@@ -1,4 +1,4 @@
-requests==2.20.0
-phub
-json
-beautifulsoup4
+requests==2.31.0
+phub==4.2.0
+jsonschema==4.2.0
+beautifulsoup4==4.12.2
