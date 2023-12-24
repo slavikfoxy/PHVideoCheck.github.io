@@ -4,6 +4,8 @@ on:
   schedule:
     - cron: "0 0,8,16 * * *"  # Minute/Hour/Day/Month/Weekday (UTC)
   workflow_dispatch:
+permissions:
+  contents: write
 
 jobs:
   build:
@@ -31,5 +33,6 @@ jobs:
             git config --global user.name "slavikfoxy"
             git remote set-url origin https://$GH_TOKEN@github.com/${{ github.repository }}
             git status
+            git add .
             git commit -am "Add new files and modify existing files"
             git push 
