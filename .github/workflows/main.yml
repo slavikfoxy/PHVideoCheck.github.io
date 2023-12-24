@@ -30,12 +30,6 @@ jobs:
             # Configure Git with your user information
             git config --global user.email "oliynik.v2014@gmail.com"
             git config --global user.name "slavikfoxy"
-        
-            # Add all changes to the staging area
-            git add .
-        
-            # Commit changes with a custom message
-            git commit -m "Commit message from GitHub Actions"
-        
-            # Push changes to the repository
-            git push origin main
+            git remote set-url origin https://$GH_TOKEN@github.com/${{ github.repository }}
+            git fetch
+            git checkout master
