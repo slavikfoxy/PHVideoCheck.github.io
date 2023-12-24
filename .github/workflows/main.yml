@@ -38,4 +38,4 @@ jobs:
             git commit -m "Commit message from GitHub Actions"
         
             # Push changes to the repository
-            git push origin master
+            git push origin main
