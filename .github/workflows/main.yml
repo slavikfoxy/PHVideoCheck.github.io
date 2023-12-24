@@ -32,4 +32,4 @@ jobs:
             git config --global user.name "slavikfoxy"
             git remote set-url origin https://$GH_TOKEN@github.com/${{ github.repository }}
             git fetch
-            git checkout master
+            git checkout main
