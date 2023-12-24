@@ -31,5 +31,8 @@ jobs:
             git config --global user.email "oliynik.v2014@gmail.com"
             git config --global user.name "slavikfoxy"
             git remote set-url origin https://$GH_TOKEN@github.com/${{ github.repository }}
+            git status
+            git add .
+            git status
             git fetch
             git checkout main
