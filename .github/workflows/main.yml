@@ -32,4 +32,4 @@ jobs:
             git remote set-url origin https://$GH_TOKEN@github.com/${{ github.repository }}
             git status
             git commit -am "Add new files and modify existing files"
-            git push origin main
+            git push 
