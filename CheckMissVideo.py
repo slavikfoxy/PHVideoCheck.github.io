@@ -142,7 +142,7 @@ def compare_json_files_by_keywords(file1, output_file):
                     output.write(f'Deleted video: {json.dumps(item, ensure_ascii=False,indent=2)}\n')
     with open('tmp.json', 'r', encoding='utf-8') as dd:
         data2 = json.load(dd)
-        with open('output.html', 'w', encoding='utf-8') as html_file:
+        with open('index.html', 'w', encoding='utf-8') as html_file:
             # Додаємо початок HTML-файлу
             html_file.write('<html>\n<head>\n<title>My HTML Page</title>\n</head>\n<body>\n')
             #if not os.path.exists('img'):
