@@ -160,6 +160,7 @@ def compare_json_files_by_keywords(file1, output_file):
                     html_file.write(f'<p>Video url: {element.get('video.url', {})}</p>\n')
                     html_file.write(f'<p>Video img url: {element.get('video.image.url', {})}</p>\n')
                     html_file.write(f'<img src="{image_filenamee}" title="{element.get('video.title', {})}">\n')
+                    html_file.write(f'<p>Video title: {element.get('video.title', {})}</p>\n')
                     html_file.write(f'<p>Date: {element.get('video.date', {})}</p>\n')
                     html_file.write(f'<p>Author: {element.get('video.author', {})}</p>\n')
 
