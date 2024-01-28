@@ -163,6 +163,8 @@ def compare_json_files_by_keywords(file1, output_file):
                     html_file.write(f'<p>Video title: {element.get('video.title', {})}</p>\n')
                     html_file.write(f'<p>Date: {element.get('video.date', {})}</p>\n')
                     html_file.write(f'<p>Author: {element.get('video.author', {})}</p>\n')
+                    html_file.write(f'<p>3gpporn.com Alternative: https://3gpporn.org/video/{element.get('video.key', {})} </p>\n')
+                    
 
             # Додаємо кінець HTML-файлу
             html_file.write('</body>\n</html>')        
