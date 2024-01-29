@@ -165,9 +165,9 @@ def compare_json_files_by_keywords(file1, output_file):
                     html_file.write(f'<p>Date: {element.get('video.date', {})}</p>\n')
                     html_file.write(f'<p>Author: {element.get('video.author', {})}</p>\n')
                     html_file.write(f'<p><a href="https://3gpporn.org/video/{extract_keyword_key(element.get("video.url", {}))}">link to 3GPP</a> </p>\n')
-                    html_file.write(f'<p><a href="https://duckduckgo.com/?q={extract_keyword_key(element.get("video.title", {}))}">link to DUCKDUCKGO</a> </p>\n')
-                    html_file.write(f'<p><a href="https://yandex.com/search/?text={extract_keyword_key(element.get("video.title", {}))}">link to YANDEX</a> </p>\n')
-                    html_file.write(f'<p><a href="https://www.bing.com/search?q={extract_keyword_key(element.get("video.title", {}))}">link to BING</a> </p>\n')
+                    html_file.write(f'<p><a href="https://duckduckgo.com/?q={element.get("video.title", {})}">link to DUCKDUCKGO</a> </p>\n')
+                    html_file.write(f'<p><a href="https://yandex.com/search/?text={element.get("video.title", {})}">link to YANDEX</a> </p>\n')
+                    html_file.write(f'<p><a href="https://www.bing.com/search?q={element.get("video.title", {})}">link to BING</a> </p>\n')
                 
                 i+=1
 
