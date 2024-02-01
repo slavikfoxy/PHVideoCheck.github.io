@@ -148,13 +148,12 @@ def compare_json_files_by_keywords(file1, output_file):
             #if not os.path.exists('img'):
                 #os.makedirs('img')
             # Обробляємо кожен елемент у JSON файлі
-            i =0
-            for element in data2:
+            for i, element in enumerate(data2):
                 if element.get('video.author',{}) != 'BabyDollDiana':
                 # Отримуємо URL зображення
                     image_url = element.get('video.image.url', {})
                 # Якщо URL існує, скачуємо зображення та додаємо тег зображення в HTML файл
-                if image_url:
+                #if image_url:
                     html_file.write(f'<p>-----------------{i}------------------------</p>\n')
                     image_filenamee = f'img/{extract_keyword_key(element.get("video.url", {}))}.jp'
                     #download_image(image_url, image_filename)
@@ -168,9 +167,6 @@ def compare_json_files_by_keywords(file1, output_file):
                     html_file.write(f'<p><a href="https://duckduckgo.com/?q={element.get("video.title", {})}">link to DUCKDUCKGO</a> </p>\n')
                     html_file.write(f'<p><a href="https://yandex.com/search/?text={element.get("video.title", {})}">link to YANDEX</a> </p>\n')
                     html_file.write(f'<p><a href="https://www.bing.com/search?q={element.get("video.title", {})}">link to BING</a> </p>\n')
-                
-                i+=1
-
             # Додаємо кінець HTML-файлу
             html_file.write('</body>\n</html>')        
 def extract_keyword(line):
