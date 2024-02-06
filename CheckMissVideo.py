@@ -36,7 +36,8 @@ def imput():
     with open(inputF, 'r+', encoding='utf-8') as FR,open('tmp.json', 'w', encoding='utf-8') as OUT:
         delend(inputF, 0)
         files_sete = get_file_list('./img')
-        modified_objects = extract_objects_from_file(outputLog)
+        try:
+            modified_objects = extract_objects_from_file(outputLog)
         OUT.write('[')
         for i, obj in enumerate(modified_objects):
             is_last_element = (i == len(modified_objects) - 1)
@@ -84,6 +85,9 @@ def imput():
                     FW.write(",")
                     json.dump(data, FW, ensure_ascii=False,indent=2)     
         delend(inputF, 0)
+        except Exception as e:
+            raise e
+        
                 
 def delend(file_path, dela):
     with open(file_path, 'r+', encoding='utf-8') as file:
