@@ -1,5 +1,5 @@
 requests==2.31.0
-phub==4.2.0
+phub==4.5.7
 jsonschema==4.2.0
 beautifulsoup4==4.12.2
 ffmpeg-progress-yield==0.7.8
