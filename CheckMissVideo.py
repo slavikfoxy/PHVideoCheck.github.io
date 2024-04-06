@@ -85,7 +85,7 @@ def input(name1, phlist,video_Url):
                                  download_image(video.image.url, image_filename)
                             video_Url.add(video.url)
                             if video.url in keywords1:
-                               print(f'{i} ')
+                               print(f'{i} {video}')
                             else:
                                     print(f'{i} {video.url}')
                                     image = video.image.url
