@@ -12,7 +12,7 @@ inputF = "listvideo.json"
 outputLog = 'outputJSON.json'
 pattern = r'"video\.url":\s+"(https://[^"]+)"'
 pattern2 = r'viewkey=(\w+)'
-client = phub.Client('allashevtcova@yandex.ru', '1qa2ws3ed', delay = 0.2)
+client = phub.Client('allashevtcova@yandex.ru', 'Alla@2024', delay = 0.2)
 videoUrlMy = set()
 videoUrlTail = set()
 videoUrlSocks = set()
@@ -314,7 +314,7 @@ if __name__ == "__main__":
     input("Socks.json",  "https://rt.pornhub.com/playlist/200793251", videoUrlSocks)
     input("Costume.json",  "https://rt.pornhub.com/playlist/228798371", videoUrlCostume)
     #compare_json_files_by_keywords("MY.json", outputLog, videoUrlMy)
-    #compare_json_files_by_keywords2()
-    #build_HTML("tmp.json")
+    compare_json_files_by_keywords2()
+    build_HTML("tmp.json")
     #SortInpList()
     
