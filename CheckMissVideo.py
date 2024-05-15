@@ -194,15 +194,16 @@ def build_HTML(file1):
                     #os.makedirs('img')
                 # Обробляємо кожен елемент у JSON файлі
                 for i, element in enumerate(data2):
-                    if element.get('video.author',{}) != 'BabyDollDiana':
+                    #if element.get('video.author',{}) != 'BabyDollDiana':
                     # Отримуємо URL зображення
-                        image_url = element.get('video.image.url', {})
+                    image_url = element.get('video.image.url', {})
                     # Якщо URL існує, скачуємо зображення та додаємо тег зображення в HTML файл
                     if image_url:
                         html_file.write(f'<p>-----------------{i}------------------------</p>\n')
                         image_filenamee = f'img/{extract_keyword_key(element.get("video.url", {}))}.jp'
                         #download_image(image_url, image_filename)
                         html_file.write(f'<p>Video url: {element.get('video.url', {})}</p>\n')
+                        html_file.write(f'<p><a href="{element.get('video.url', {})}">{element.get('video.url', {})}</a> </p>\n')
                         html_file.write(f'<p>Video img url: {element.get('video.image.url', {})}</p>\n')
                         html_file.write(f'<img src="{image_filenamee}" title="{element.get('video.title', {})}">\n')
                         html_file.write(f'<p>Video title: {element.get('video.title', {})}</p>\n')
