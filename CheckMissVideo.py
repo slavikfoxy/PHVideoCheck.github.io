@@ -315,8 +315,8 @@ if __name__ == "__main__":
     input("Socks.json",  "https://rt.pornhub.com/playlist/200793251", videoUrlSocks)
     input("Costume.json",  "https://rt.pornhub.com/playlist/228798371", videoUrlCostume)
     #compare_json_files_by_keywords("MY.json", outputLog, videoUrlMy)
-    compare_json_files_by_keywords2()
-    build_HTML("tmp.json")
+    #compare_json_files_by_keywords2()
+    #build_HTML("tmp.json")
 
 
     #SortInpList()
