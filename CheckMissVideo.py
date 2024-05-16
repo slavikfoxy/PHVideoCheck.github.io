@@ -309,10 +309,10 @@ def get_file_list(directory): #отиримання Списку файлів
   return file_list
 
 if __name__ == "__main__":
-    #input("listvideo.json",  "client.account.watched", videoUrlAll)
-    #input("MY.json",  "https://rt.pornhub.com/playlist/310163161", videoUrlMy)
-    #input("Tail.json",  "https://rt.pornhub.com/playlist/185091142", videoUrlTail)
-    #input("Socks.json",  "https://rt.pornhub.com/playlist/200793251", videoUrlSocks)
+    input("listvideo.json",  "client.account.watched", videoUrlAll)
+    input("MY.json",  "https://rt.pornhub.com/playlist/310163161", videoUrlMy)
+    input("Tail.json",  "https://rt.pornhub.com/playlist/185091142", videoUrlTail)
+    input("Socks.json",  "https://rt.pornhub.com/playlist/200793251", videoUrlSocks)
     input("Costume.json",  "https://rt.pornhub.com/playlist/228798371", videoUrlCostume)
     #compare_json_files_by_keywords("MY.json", outputLog, videoUrlMy)
     #compare_json_files_by_keywords2()
