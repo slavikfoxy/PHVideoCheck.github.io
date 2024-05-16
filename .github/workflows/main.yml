@@ -2,7 +2,7 @@ name: "PHVC"
 
 on:
   schedule:
-    - cron: "0 0,6 * * *"  # Minute/Hour/Day/Month/Weekday (UTC)
+    - cron: "0 0,0 * * *"  # Minute/Hour/Day/Month/Weekday (UTC)
   workflow_dispatch:
 permissions:
   contents: write
