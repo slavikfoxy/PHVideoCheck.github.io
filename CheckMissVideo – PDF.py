@@ -8,6 +8,9 @@ import re
 import requests
 from bs4 import BeautifulSoup
 from phub.utils import suppress
+from phub import Quality
+from phub import download as download
+import subprocess
 inputF = "listvideo.json"
 outputLog = 'outputJSON.json'
 pattern = r'"video\.url":\s+"(https://[^"]+)"'
@@ -184,24 +187,44 @@ def compare_json_files_by_keywords2(): #Input file and OutputJson
 
 def build_HTML(file1):
         buildTmp('tmp.json')
-        with open(file1, 'r', encoding='utf-8') as dd:
+        i = 0
+        with open(file1, 'r', encoding='utf-8') as dd, open('MY.json', 'r', encoding='utf-8') as Myfile, open('Socks.json', 'r', encoding='utf-8') as Socksfile,  open('Costume.json', 'r', encoding='utf-8') as Costumefile, open('Tail.json', 'r', encoding='utf-8') as Tailfile:
             delend(file1, 0)
             data2 = json.load(dd)
+            Mydata = json.load(Myfile)
+            Socksdata = json.load(Socksfile)
+            Costumedata = json.load(Costumefile)
+            Taildata = json.load(Tailfile)
+            My_keywords = set(item["video.url"] for item in Mydata if "video.key" in item)
+            Socks_keywords = set(item["video.url"] for item in Socksdata if "video.key" in item)
+            Costume_keywords = set(item["video.url"] for item in Costumedata if "video.key" in item)
+            Tail_keywords = set(item["video.url"] for item in Taildata if "video.key" in item)
             with open('index.html', 'w', encoding='utf-8') as html_file:
                 # Додаємо початок HTML-файлу
                 html_file.write('<html>\n<head>\n<title>My HTML Page</title>\n</head>\n<body>\n')
                 #if not os.path.exists('img'):
                     #os.makedirs('img')
                 # Обробляємо кожен елемент у JSON файлі
-                for i, element in enumerate(data2):
+
+                for  element in data2:
                     #if element.get('video.author',{}) != 'BabyDollDiana':
                     # Отримуємо URL зображення
                     image_url = element.get('video.image.url', {})
                     # Якщо URL існує, скачуємо зображення та додаємо тег зображення в HTML файл
                     if image_url:
                         html_file.write(f'<p>-----------------{i}------------------------</p>\n')
+                        i = i + 1 
                         image_filenamee = f'img/{extract_keyword_key(element.get("video.url", {}))}.jp'
                         #download_image(image_url, image_filename)
+                        if element.get('video.key') in My_keywords:
+                            html_file.write(f'<p>Video include in ! My ! playlist </p>\n')
+                        if element.get('video.key') in Socks_keywords:
+                            html_file.write(f'<p>Video include in ! Socks ! playlist </p>\n')
+                        if element.get('video.key') in Costume_keywords:
+                            html_file.write(f'<p>Video include in ! Costume ! playlist </p>\n')
+                        if element.get('video.key') in Tail_keywords:
+                            html_file.write(f'<p>Video include in ! Tail ! playlist </p>\n')
+                        html_file.write(f'<p>Video date: {element.get('video.date', {})}</p>\n')
                         html_file.write(f'<p>Video url: {element.get('video.url', {})}</p>\n')
                         html_file.write(f'<p><a href="{element.get('video.url', {})}">{element.get('video.url', {})}</a> </p>\n')
                         html_file.write(f'<p>Video img url: {element.get('video.image.url', {})}</p>\n')
@@ -210,14 +233,51 @@ def build_HTML(file1):
                         html_file.write(f'<p>Date: {element.get('video.date', {})}</p>\n')
                         html_file.write(f'<p>Author: {element.get('video.author', {})}</p>\n')
                         html_file.write(f'<p><a href="https://3gpporn.org/video/{extract_keyword_key(element.get("video.url", {}))}">link to 3GPP</a> </p>\n')
-                        html_file.write(f'<p><a href="https://duckduckgo.com/?q={element.get("video.title", {})}">link to DUCKDUCKGO</a> </p>\n')
-                        html_file.write(f'<p><a href="https://yandex.com/search/?text={element.get("video.title", {})}">link to YANDEX</a> </p>\n')
-                        html_file.write(f'<p><a href="https://www.bing.com/search?q={element.get("video.title", {})}">link to BING</a> </p>\n')
+                        html_file.write(f'<p><a href="https://duckduckgo.coD:/Backup/m/?q={element.get("video.title", {})}">link to DUCKDUCKGO</a> </p>\n')
+                        html_file.write(f'<p><a href="https://yandex.coD:/Backup/m/search/?text={element.get("video.title", {})}">link to YANDEX</a> </p>\n')
+                        html_file.write(f'<p><a href="https://duckduckgo.coD:/Backup/m/?q={element.get("video.title", {})}  {element.get('video.author', {})}">link to DUCKDUCKGO + Author</a> </p>\n')
+                        html_file.write(f'<p><a href="https://yandex.coD:/Backup/m/search/?text={element.get("video.title", {})}  {element.get('video.author', {})}">link to YANDEX + Author</a> </p>\n')
+                        html_file.write(f'<p><a href="https://www.bing.coD:/Backup/m/search?q={element.get("video.title", {})}">link to BING</a> </p>\n')
                 # Додаємо кінець HTML-файлу
                 html_file.write('</body>\n</html>')
         print(f'HTML Created /n')
 
-              
+def down():
+    with open('MY.json', 'r', encoding='utf-8') as dd:
+        delend('MY.json', 0)
+        data3 = json.load(dd)
+        for i, item in enumerate( data3): 
+            video = client.get(item.get('video.url'))
+            try:
+                if os.path.exists(f'D:/Backup/m/{video.key}.mp'):
+                    duration = get_video_duration(f'D:/Backup/m/{video.key}.mp')
+                    if duration < 9:
+                        video.download(path = f'D:/Backup/m/tmp_{video.key}.mp4',quality = Quality(240), downloader = download.FFMPEG)
+                        checkSizeAren(video.key)
+                if not os.path.exists(f'D:/Backup/m/{video.key}.mp'):
+                    video.download(path = f'D:/Backup/m/tmp_{video.key}.mp4',quality = Quality(240), downloader = download.FFMPEG)
+                    checkSizeAren(video.key)
+                else:
+                    duration = get_video_duration(f'D:/Backup/m/{video.key}.mp')
+                    print(f"{i}.Skip - Тривалість відео {video.key} : {duration} секунд")
+                      
+            except:
+                print(f'download except - {video.url}')
+                     
+        print(f'download finish! /n')
+
+def checkSizeAren(nameKey):
+    try:
+        if os.path.exists(f'D:/Backup/m/{nameKey}.mp') and os.path.exists(f'D:/Backup/m/tmp_{nameKey}.mp4'):
+                if os.path.getsize(f'D:/Backup/m/tmp_{nameKey}.mp4') > os.path.getsize(f'D:/Backup/m/{nameKey}.mp'):
+                    os.remove(f'D:/Backup/m/{nameKey}.mp')
+                    os.rename(f'D:/Backup/m/tmp_{nameKey}.mp4', f'D:/Backup/m/{nameKey}.mp')
+        if os.path.exists(f'D:/Backup/m/tmp_{nameKey}.mp4'):
+            os.rename(f'D:/Backup/m/tmp_{nameKey}.mp4', f'D:/Backup/m/{nameKey}.mp')
+    except:
+        print(f'checkSizeAren except')
+
+
 def delend(file_path, dela):   # Видалення(1) або добавлення(0) " ] " 
     with open(file_path, 'r+', encoding='utf-8') as file:
     # Перейти в кінець файлу
@@ -308,16 +368,41 @@ def get_file_list(directory): #отиримання Списку файлів
       file_list.add(file)
   return file_list
 
-if __name__ == "__main__":
-    #input("listvideo.json",  "client.account.watched", videoUrlAll)
-    #input("MY.json",  "https://rt.pornhub.com/playlist/310163161", videoUrlMy)
-    #input("Tail.json",  "https://rt.pornhub.com/playlist/185091142", videoUrlTail)
-    #input("Socks.json",  "https://rt.pornhub.com/playlist/200793251", videoUrlSocks)
-    #input("Costume.json",  "https://rt.pornhub.com/playlist/228798371", videoUrlCostume)
-    #compare_json_files_by_keywords("MY.json", outputLog, videoUrlMy)
-    compare_json_files_by_keywords2()
-    build_HTML("tmp.json")
+def get_video_duration(video_file):
+  """
+  Отримує тривалість відеофайлу mp4 за допомогою FFmpeg.
 
+  Args:
+    video_file: Шлях до відеофайлу mp4.
+
+  Returns:
+    Тривалість відео в секундах.
+  """
+
+  command = ["ffprobe", "-v", "quiet", "-print_format", "json", "-show_format", "-show_streams", video_file]
+  output = subprocess.check_output(command, shell=True)
+
+  json_data = json.loads(output)
+  for stream in json_data["streams"]:
+    if stream["codec_type"] == "video":
+      return float(stream["duration"])
+
+  raise ValueError("Не вдалося знайти відеопотік у файлі")
+
+
+
+if __name__ == "__main__":
+    #xinput("listvideo.json",  "client.account.watched", videoUrlAll)
+    #input("MY.json",  "https://rt.pornhub.coD:/Backup/m/playlist/310163161", videoUrlMy)
+    #input("Tail.json",  "https://rt.pornhub.coD:/Backup/m/playlist/185091142", videoUrlTail)
+    #input("Socks.json",  "https://rt.pornhub.coD:/Backup/m/playlist/200793251", videoUrlSocks)
+    #input("Costume.json",  "https://rt.pornhub.coD:/Backup/m/playlist/228798371", videoUrlCostume)
+    #compare_json_files_by_keywords("MY.json", outputLog, videoUrlMy)
+
+    #down();
+    #compare_json_files_by_keywords2()
+    build_HTML("tmp.json")
+    
 
     #SortInpList()
     

@@ -8,6 +8,7 @@ import re
 import requests
 from bs4 import BeautifulSoup
 from phub.utils import suppress
+
 inputF = "listvideo.json"
 outputLog = 'outputJSON.json'
 pattern = r'"video\.url":\s+"(https://[^"]+)"'
