@@ -195,10 +195,10 @@ def build_HTML(file1):
             Socksdata = json.load(Socksfile)
             Costumedata = json.load(Costumefile)
             Taildata = json.load(Tailfile)
-            My_keywords = set(item["video.url"] for item in Mydata if "video.key" in item)
-            Socks_keywords = set(item["video.url"] for item in Socksdata if "video.key" in item)
-            Costume_keywords = set(item["video.url"] for item in Costumedata if "video.key" in item)
-            Tail_keywords = set(item["video.url"] for item in Taildata if "video.key" in item)
+            My_keywords = set(item["video.url"] for item in Mydata if "video.url" in item)
+            Socks_keywords = set(item["video.url"] for item in Socksdata if "video.url" in item)
+            Costume_keywords = set(item["video.url"] for item in Costumedata if "video.url" in item)
+            Tail_keywords = set(item["video.url"] for item in Taildata if "video.url" in item)
             with open('index.html', 'w', encoding='utf-8') as html_file:
                 # Додаємо початок HTML-файлу
                 html_file.write('<html>\n<head>\n<title>My HTML Page</title>\n</head>\n<body>\n')
@@ -216,14 +216,6 @@ def build_HTML(file1):
                         i = i + 1 
                         image_filenamee = f'img/{extract_keyword_key(element.get("video.url", {}))}.jp'
                         #download_image(image_url, image_filename)
-                        if element.get('video.key') in My_keywords:
-                            html_file.write(f'<p>Video include in ! My ! playlist </p>\n')
-                        if element.get('video.key') in Socks_keywords:
-                            html_file.write(f'<p>Video include in ! Socks ! playlist </p>\n')
-                        if element.get('video.key') in Costume_keywords:
-                            html_file.write(f'<p>Video include in ! Costume ! playlist </p>\n')
-                        if element.get('video.key') in Tail_keywords:
-                            html_file.write(f'<p>Video include in ! Tail ! playlist </p>\n')
                         html_file.write(f'<p>Video date: {element.get('video.date', {})}</p>\n')
                         html_file.write(f'<p>Video url: {element.get('video.url', {})}</p>\n')
                         html_file.write(f'<p><a href="{element.get('video.url', {})}">{element.get('video.url', {})}</a> </p>\n')
@@ -232,6 +224,18 @@ def build_HTML(file1):
                         html_file.write(f'<p>Video title: {element.get('video.title', {})}</p>\n')
                         html_file.write(f'<p>Date: {element.get('video.date', {})}</p>\n')
                         html_file.write(f'<p>Author: {element.get('video.author', {})}</p>\n')
+                        if element.get("video.url", {}) in My_keywords:
+                            print(f'Add video My_keywords in HTML')
+                            html_file.write(f'<p>Video include in ! My ! playlist </p>\n')
+                        if element.get("video.url", {}) in Socks_keywords:
+                            print(f'Add video Socks_keywords in HTML')
+                            html_file.write(f'<p>Video include in ! Socks ! playlist </p>\n')
+                        if element.get("video.url", {}) in Costume_keywords:
+                            print(f'Add video Costume_keywords in HTML')
+                            html_file.write(f'<p>Video include in ! Costume ! playlist </p>\n')
+                        if element.get("video.url", {}) in Tail_keywords:
+                            print(f'Add video Tail_keywords in HTML')
+                            html_file.write(f'<p>Video include in ! Tail ! playlist </p>\n')
                         html_file.write(f'<p><a href="https://3gpporn.org/video/{extract_keyword_key(element.get("video.url", {}))}">link to 3GPP</a> </p>\n')
                         html_file.write(f'<p><a href="https://duckduckgo.coD:/Backup/m/?q={element.get("video.title", {})}">link to DUCKDUCKGO</a> </p>\n')
                         html_file.write(f'<p><a href="https://yandex.coD:/Backup/m/search/?text={element.get("video.title", {})}">link to YANDEX</a> </p>\n')
