@@ -252,7 +252,13 @@ def build_HTML(file1):
                             classes += " Tail"
                         
                         html_file.write(f'<div class="{classes}">\n')
-                        html_file.write(f'<p>-----------------{i}------------------------</p>\n')
+
+                        if os.path.exists(f'D:/Backup/MY.json/{extract_keyword_key(element.get("video.url", {}))}.mp'):
+                            html_file.write(f'<p>-----------------{i}+fileEveible_My------------------------</p>\n')
+                        elif os.path.exists(f'D:/Backup/Costume.json/{extract_keyword_key(element.get("video.url", {}))}.mp'):
+                            html_file.write(f'<p>-----------------{i}+fileEveible_Costume------------------------</p>\n')
+                        else:
+                            html_file.write(f'<p>-----------------{i}------------------------</p>\n')
                         i += 1
                         image_filenamee = f'img/{extract_keyword_key(element.get("video.url", {}))}.jp'
                         html_file.write(f'<p>Video date: {element.get("video.date", {})}</p>\n')
