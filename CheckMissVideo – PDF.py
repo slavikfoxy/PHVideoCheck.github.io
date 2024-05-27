@@ -200,50 +200,93 @@ def build_HTML(file1):
             Costume_keywords = set(item["video.url"] for item in Costumedata if "video.url" in item)
             Tail_keywords = set(item["video.url"] for item in Taildata if "video.url" in item)
             with open('index.html', 'w', encoding='utf-8') as html_file:
-                # Додаємо початок HTML-файлу
-                html_file.write('<html>\n<head>\n<title>My HTML Page</title>\n</head>\n<body>\n')
-                #if not os.path.exists('img'):
-                    #os.makedirs('img')
-                # Обробляємо кожен елемент у JSON файлі
+    # Додаємо початок HTML-файлу
+                html_file.write('''
+<html>
+<head>
+    <title>My HTML Page</title>
+    <style>
+        .video-item { display: none; }
+        .My, .Socks, .Costume, .Tail { display: none; }
+    </style>
+    <script>
+        function filterCategory(category) {
+            var items = document.getElementsByClassName('video-item');
+            for (var i = 0; i < items.length; i++) {
+                items[i].style.display = 'none';
+            }
+            if (category === 'All') {
+                for (var i = 0; i < items.length; i++) {
+                    items[i].style.display = 'block';
+                }
+            } else {
+                var selectedItems = document.getElementsByClassName(category);
+                for (var i = 0; i < selectedItems.length; i++) {
+                    selectedItems[i].style.display = 'block';
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+    <button onclick="filterCategory('All')">All</button>
+    <button onclick="filterCategory('My')">My</button>
+    <button onclick="filterCategory('Socks')">Socks</button>
+    <button onclick="filterCategory('Costume')">Costume</button>
+    <button onclick="filterCategory('Tail')">Tail</button>
+    <div id="content">
+''')
 
-                for  element in data2:
-                    #if element.get('video.author',{}) != 'BabyDollDiana':
-                    # Отримуємо URL зображення
+    # Обробляємо кожен елемент у JSON файлі
+                for element in data2:
                     image_url = element.get('video.image.url', {})
-                    # Якщо URL існує, скачуємо зображення та додаємо тег зображення в HTML файл
                     if image_url:
-                        html_file.write(f'<p>-----------------{i}------------------------</p>\n')
-                        i = i + 1 
-                        image_filenamee = f'img/{extract_keyword_key(element.get("video.url", {}))}.jp'
-                        #download_image(image_url, image_filename)
-                        html_file.write(f'<p>Video date: {element.get('video.date', {})}</p>\n')
-                        html_file.write(f'<p>Video url: {element.get('video.url', {})}</p>\n')
-                        html_file.write(f'<p><a href="{element.get('video.url', {})}">{element.get('video.url', {})}</a> </p>\n')
-                        html_file.write(f'<p>Video img url: {element.get('video.image.url', {})}</p>\n')
-                        html_file.write(f'<img src="{image_filenamee}" title="{element.get('video.title', {})}">\n')
-                        html_file.write(f'<p>Video title: {element.get('video.title', {})}</p>\n')
-                        html_file.write(f'<p>Date: {element.get('video.date', {})}</p>\n')
-                        html_file.write(f'<p>Author: {element.get('video.author', {})}</p>\n')
+                        classes = "video-item"
                         if element.get("video.url", {}) in My_keywords:
-                            print(f'Add video My_keywords in HTML')
+                            classes += " My"
+                        if element.get("video.url", {}) in Socks_keywords:
+                            classes += " Socks"
+                        if element.get("video.url", {}) in Costume_keywords:
+                            classes += " Costume"
+                        if element.get("video.url", {}) in Tail_keywords:
+                            classes += " Tail"
+                        
+                        html_file.write(f'<div class="{classes}">\n')
+                        html_file.write(f'<p>-----------------{i}------------------------</p>\n')
+                        i += 1
+                        image_filenamee = f'img/{extract_keyword_key(element.get("video.url", {}))}.jp'
+                        html_file.write(f'<p>Video date: {element.get("video.date", {})}</p>\n')
+                        html_file.write(f'<p>Video url: {element.get("video.url", {})}</p>\n')
+                        html_file.write(f'<p><a href="{element.get("video.url", {})}">{element.get("video.url", {})}</a></p>\n')
+                        html_file.write(f'<p>Video img url: {element.get("video.image.url", {})}</p>\n')
+                        html_file.write(f'<img src="{image_filenamee}" title="{element.get("video.title", {})}">\n')
+                        html_file.write(f'<p>Video title: {element.get("video.title", {})}</p>\n')
+                        html_file.write(f'<p>Date: {element.get("video.date", {})}</p>\n')
+                        html_file.write(f'<p>Author: {element.get("video.author", {})}</p>\n')
+
+                        if element.get("video.url", {}) in My_keywords:
                             html_file.write(f'<p>Video include in ! My ! playlist </p>\n')
                         if element.get("video.url", {}) in Socks_keywords:
-                            print(f'Add video Socks_keywords in HTML')
                             html_file.write(f'<p>Video include in ! Socks ! playlist </p>\n')
                         if element.get("video.url", {}) in Costume_keywords:
-                            print(f'Add video Costume_keywords in HTML')
                             html_file.write(f'<p>Video include in ! Costume ! playlist </p>\n')
                         if element.get("video.url", {}) in Tail_keywords:
-                            print(f'Add video Tail_keywords in HTML')
                             html_file.write(f'<p>Video include in ! Tail ! playlist </p>\n')
-                        html_file.write(f'<p><a href="https://3gpporn.org/video/{extract_keyword_key(element.get("video.url", {}))}">link to 3GPP</a> </p>\n')
-                        html_file.write(f'<p><a href="https://duckduckgo.coD:/Backup/{filename}/?q={element.get("video.title", {})}">link to DUCKDUCKGO</a> </p>\n')
-                        html_file.write(f'<p><a href="https://yandex.coD:/Backup/{filename}/search/?text={element.get("video.title", {})}">link to YANDEX</a> </p>\n')
-                        html_file.write(f'<p><a href="https://duckduckgo.coD:/Backup/{filename}/?q={element.get("video.title", {})}  {element.get('video.author', {})}">link to DUCKDUCKGO + Author</a> </p>\n')
-                        html_file.write(f'<p><a href="https://yandex.coD:/Backup/{filename}/search/?text={element.get("video.title", {})}  {element.get('video.author', {})}">link to YANDEX + Author</a> </p>\n')
-                        html_file.write(f'<p><a href="https://www.bing.coD:/Backup/{filename}/search?q={element.get("video.title", {})}">link to BING</a> </p>\n')
+
+                        html_file.write(f'<p><a href="https://3gpporn.org/video/{extract_keyword_key(element.get("video.url", {}))}">link to 3GPP</a></p>\n')
+                        html_file.write(f'<p><a href="https://duckduckgo.com/?q={element.get("video.title", {})}">link to DUCKDUCKGO</a></p>\n')
+                        html_file.write(f'<p><a href="https://yandex.com/search/?text={element.get("video.title", {})}">link to YANDEX</a></p>\n')
+                        html_file.write(f'<p><a href="https://www.bing.com/search?q={element.get("video.title", {})}">link to BING</a></p>\n')
+                        html_file.write(f'<p><a href="https://duckduckgo.com/?q={element.get("video.title", {})} {element.get("video.author", {})}">link to DUCKDUCKGO + Author</a></p>\n')
+                        html_file.write(f'<p><a href="https://yandex.com/search/?text={element.get("video.title", {})} {element.get("video.author", {})}">link to YANDEX + Author</a></p>\n')
+                        html_file.write('</div>\n')
+
                 # Додаємо кінець HTML-файлу
-                html_file.write('</body>\n</html>')
+                html_file.write('''
+    </div>
+</body>
+</html>
+''')
         print(f'HTML Created /n')
 
 def down(filename):
@@ -396,16 +439,16 @@ def get_video_duration(video_file):
 
 
 if __name__ == "__main__":
-    #xinput("listvideo.json",  "client.account.watched", videoUrlAll)
-    #input("MY.json",  "https://rt.pornhub.coD:/Backup/{filename}/playlist/310163161", videoUrlMy)
-    #input("Tail.json",  "https://rt.pornhub.coD:/Backup/{filename}/playlist/185091142", videoUrlTail)
-    #input("Socks.json",  "https://rt.pornhub.coD:/Backup/{filename}/playlist/200793251", videoUrlSocks)
-    #input("Costume.json",  "https://rt.pornhub.coD:/Backup/{filename}/playlist/228798371", videoUrlCostume)
+    #input("listvideo.json",  "client.account.watched", videoUrlAll)
+    #input("MY.json",  "https://rt.pornhub.com/playlist/310163161", videoUrlMy)
+    #input("Tail.json",  "https://rt.pornhub.com/playlist/185091142", videoUrlTail)
+    #input("Socks.json",  "https://rt.pornhub.com/playlist/200793251", videoUrlSocks)
+    #input("Costume.json",  "https://rt.pornhub.com/playlist/228798371", videoUrlCostume)
     #compare_json_files_by_keywords("MY.json", outputLog, videoUrlMy)
 
-    down("Costume.json");
+    #down("Costume.json");
     #compare_json_files_by_keywords2()
-    #build_HTML("tmp.json")
+    build_HTML("tmp.json")
     
 
     #SortInpList()
