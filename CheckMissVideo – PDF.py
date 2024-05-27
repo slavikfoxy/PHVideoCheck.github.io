@@ -237,32 +237,32 @@ def build_HTML(file1):
                             print(f'Add video Tail_keywords in HTML')
                             html_file.write(f'<p>Video include in ! Tail ! playlist </p>\n')
                         html_file.write(f'<p><a href="https://3gpporn.org/video/{extract_keyword_key(element.get("video.url", {}))}">link to 3GPP</a> </p>\n')
-                        html_file.write(f'<p><a href="https://duckduckgo.coD:/Backup/m/?q={element.get("video.title", {})}">link to DUCKDUCKGO</a> </p>\n')
-                        html_file.write(f'<p><a href="https://yandex.coD:/Backup/m/search/?text={element.get("video.title", {})}">link to YANDEX</a> </p>\n')
-                        html_file.write(f'<p><a href="https://duckduckgo.coD:/Backup/m/?q={element.get("video.title", {})}  {element.get('video.author', {})}">link to DUCKDUCKGO + Author</a> </p>\n')
-                        html_file.write(f'<p><a href="https://yandex.coD:/Backup/m/search/?text={element.get("video.title", {})}  {element.get('video.author', {})}">link to YANDEX + Author</a> </p>\n')
-                        html_file.write(f'<p><a href="https://www.bing.coD:/Backup/m/search?q={element.get("video.title", {})}">link to BING</a> </p>\n')
+                        html_file.write(f'<p><a href="https://duckduckgo.coD:/Backup/{filename}/?q={element.get("video.title", {})}">link to DUCKDUCKGO</a> </p>\n')
+                        html_file.write(f'<p><a href="https://yandex.coD:/Backup/{filename}/search/?text={element.get("video.title", {})}">link to YANDEX</a> </p>\n')
+                        html_file.write(f'<p><a href="https://duckduckgo.coD:/Backup/{filename}/?q={element.get("video.title", {})}  {element.get('video.author', {})}">link to DUCKDUCKGO + Author</a> </p>\n')
+                        html_file.write(f'<p><a href="https://yandex.coD:/Backup/{filename}/search/?text={element.get("video.title", {})}  {element.get('video.author', {})}">link to YANDEX + Author</a> </p>\n')
+                        html_file.write(f'<p><a href="https://www.bing.coD:/Backup/{filename}/search?q={element.get("video.title", {})}">link to BING</a> </p>\n')
                 # Додаємо кінець HTML-файлу
                 html_file.write('</body>\n</html>')
         print(f'HTML Created /n')
 
-def down():
-    with open('MY.json', 'r', encoding='utf-8') as dd:
-        delend('MY.json', 0)
+def down(filename):
+    with open(filename, 'r', encoding='utf-8') as dd:
+        delend(filename, 0)
         data3 = json.load(dd)
         for i, item in enumerate( data3): 
             video = client.get(item.get('video.url'))
             try:
-                if os.path.exists(f'D:/Backup/m/{video.key}.mp'):
-                    duration = get_video_duration(f'D:/Backup/m/{video.key}.mp')
+                if os.path.exists(f'D:/Backup/{filename}/{video.key}.mp'):
+                    duration = get_video_duration(f'D:/Backup/{filename}/{video.key}.mp')
                     if duration < 9:
-                        video.download(path = f'D:/Backup/m/tmp_{video.key}.mp4',quality = Quality(240), downloader = download.FFMPEG)
-                        checkSizeAren(video.key)
-                if not os.path.exists(f'D:/Backup/m/{video.key}.mp'):
-                    video.download(path = f'D:/Backup/m/tmp_{video.key}.mp4',quality = Quality(240), downloader = download.FFMPEG)
-                    checkSizeAren(video.key)
+                        video.download(path = f'D:/Backup/{filename}/tmp_{video.key}.mp4',quality = Quality(240), downloader = download.FFMPEG)
+                        checkSizeAren(video.key, filename)
+                if not os.path.exists(f'D:/Backup/{filename}/{video.key}.mp'):
+                    video.download(path = f'D:/Backup/{filename}/tmp_{video.key}.mp4',quality = Quality(240), downloader = download.FFMPEG)
+                    checkSizeAren(video.key, filename)
                 else:
-                    duration = get_video_duration(f'D:/Backup/m/{video.key}.mp')
+                    duration = get_video_duration(f'D:/Backup/{filename}/{video.key}.mp')
                     print(f"{i}.Skip - Тривалість відео {video.key} : {duration} секунд")
                       
             except:
@@ -270,14 +270,14 @@ def down():
                      
         print(f'download finish! /n')
 
-def checkSizeAren(nameKey):
+def checkSizeAren(nameKey, filename):
     try:
-        if os.path.exists(f'D:/Backup/m/{nameKey}.mp') and os.path.exists(f'D:/Backup/m/tmp_{nameKey}.mp4'):
-                if os.path.getsize(f'D:/Backup/m/tmp_{nameKey}.mp4') > os.path.getsize(f'D:/Backup/m/{nameKey}.mp'):
-                    os.remove(f'D:/Backup/m/{nameKey}.mp')
-                    os.rename(f'D:/Backup/m/tmp_{nameKey}.mp4', f'D:/Backup/m/{nameKey}.mp')
-        if os.path.exists(f'D:/Backup/m/tmp_{nameKey}.mp4'):
-            os.rename(f'D:/Backup/m/tmp_{nameKey}.mp4', f'D:/Backup/m/{nameKey}.mp')
+        if os.path.exists(f'D:/Backup/{filename}/{nameKey}.mp') and os.path.exists(f'D:/Backup/{filename}/tmp_{nameKey}.mp4'):
+                if os.path.getsize(f'D:/Backup/{filename}/tmp_{nameKey}.mp4') > os.path.getsize(f'D:/Backup/{filename}/{nameKey}.mp'):
+                    os.remove(f'D:/Backup/{filename}/{nameKey}.mp')
+                    os.rename(f'D:/Backup/{filename}/tmp_{nameKey}.mp4', f'D:/Backup/{filename}/{nameKey}.mp')
+        if os.path.exists(f'D:/Backup/{filename}/tmp_{nameKey}.mp4'):
+            os.rename(f'D:/Backup/{filename}/tmp_{nameKey}.mp4', f'D:/Backup/{filename}/{nameKey}.mp')
     except:
         print(f'checkSizeAren except')
 
@@ -397,15 +397,15 @@ def get_video_duration(video_file):
 
 if __name__ == "__main__":
     #xinput("listvideo.json",  "client.account.watched", videoUrlAll)
-    #input("MY.json",  "https://rt.pornhub.coD:/Backup/m/playlist/310163161", videoUrlMy)
-    #input("Tail.json",  "https://rt.pornhub.coD:/Backup/m/playlist/185091142", videoUrlTail)
-    #input("Socks.json",  "https://rt.pornhub.coD:/Backup/m/playlist/200793251", videoUrlSocks)
-    #input("Costume.json",  "https://rt.pornhub.coD:/Backup/m/playlist/228798371", videoUrlCostume)
+    #input("MY.json",  "https://rt.pornhub.coD:/Backup/{filename}/playlist/310163161", videoUrlMy)
+    #input("Tail.json",  "https://rt.pornhub.coD:/Backup/{filename}/playlist/185091142", videoUrlTail)
+    #input("Socks.json",  "https://rt.pornhub.coD:/Backup/{filename}/playlist/200793251", videoUrlSocks)
+    #input("Costume.json",  "https://rt.pornhub.coD:/Backup/{filename}/playlist/228798371", videoUrlCostume)
     #compare_json_files_by_keywords("MY.json", outputLog, videoUrlMy)
 
-    #down();
+    down("Costume.json");
     #compare_json_files_by_keywords2()
-    build_HTML("tmp.json")
+    #build_HTML("tmp.json")
     
 
     #SortInpList()
