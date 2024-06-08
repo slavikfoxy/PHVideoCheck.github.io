@@ -304,7 +304,13 @@ def down(filename):
             try:
                 if os.path.exists(f'D:/Backup/{filename}/{video.key}.mp'):
                     duration = get_video_duration(f'D:/Backup/{filename}/{video.key}.mp')
+                    filesize = os.path.getsize(f'D:/Backup/{filename}/{video.key}.mp')
                     if duration < 9:
+                        print(f"{i}.Довжина файла < 9 - {duration} секунд")
+                        video.download(path = f'D:/Backup/{filename}/tmp_{video.key}.mp4',quality = Quality(240), downloader = download.FFMPEG)
+                        checkSizeAren(video.key, filename)
+                    if filesize < 3300000:
+                        print(f"{i}.Розмір файла < 3 мб - {filesize /1000 } кбайт")
                         video.download(path = f'D:/Backup/{filename}/tmp_{video.key}.mp4',quality = Quality(240), downloader = download.FFMPEG)
                         checkSizeAren(video.key, filename)
                 if not os.path.exists(f'D:/Backup/{filename}/{video.key}.mp'):
@@ -325,10 +331,11 @@ def checkSizeAren(nameKey, filename):
                 if os.path.getsize(f'D:/Backup/{filename}/tmp_{nameKey}.mp4') > os.path.getsize(f'D:/Backup/{filename}/{nameKey}.mp'):
                     os.remove(f'D:/Backup/{filename}/{nameKey}.mp')
                     os.rename(f'D:/Backup/{filename}/tmp_{nameKey}.mp4', f'D:/Backup/{filename}/{nameKey}.mp')
+                    print(f"{i}.Розмір нового файла - {os.path.getsize(f'D:/Backup/{filename}/{nameKey}.mp') /1000 } кбайт")
         if os.path.exists(f'D:/Backup/{filename}/tmp_{nameKey}.mp4'):
             os.rename(f'D:/Backup/{filename}/tmp_{nameKey}.mp4', f'D:/Backup/{filename}/{nameKey}.mp')
     except:
-        print(f'checkSizeAren except')
+        print(f'checkSizeAren except, старий файл має більший розмір!')
 
 
 def delend(file_path, dela):   # Видалення(1) або добавлення(0) " ] " 
@@ -454,8 +461,8 @@ if __name__ == "__main__":
 
     down("MY.json");
     down("Costume.json");
-    compare_json_files_by_keywords2()
-    build_HTML("tmp.json")
+    #compare_json_files_by_keywords2()
+    #build_HTML("tmp.json")
     
 
     #SortInpList()
