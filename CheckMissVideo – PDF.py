@@ -461,8 +461,8 @@ if __name__ == "__main__":
 
     down("MY.json");
     down("Costume.json");
-    #compare_json_files_by_keywords2()
-    #build_HTML("tmp.json")
+    compare_json_files_by_keywords2()
+    build_HTML("tmp.json")
     
 
     #SortInpList()
