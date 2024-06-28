@@ -459,7 +459,7 @@ if __name__ == "__main__":
     #input("Costume.json",  "https://rt.pornhub.com/playlist/228798371", videoUrlCostume)
     #compare_json_files_by_keywords("MY.json", outputLog, videoUrlMy)
 
-    down("MY.json");
+    down("MY.json")
     down("Costume.json");
     compare_json_files_by_keywords2()
     build_HTML("tmp.json")
