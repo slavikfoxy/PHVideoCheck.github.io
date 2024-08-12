@@ -11,6 +11,8 @@ from phub.utils import suppress
 from phub import Quality
 from phub import download as download
 import subprocess
+import shutil
+
 inputF = "listvideo.json"
 outputLog = 'outputJSON.json'
 pattern = r'"video\.url":\s+"(https://[^"]+)"'
@@ -21,6 +23,9 @@ videoUrlTail = set()
 videoUrlSocks = set()
 videoUrlCostume = set()
 videoUrlAll = set()
+
+python_executable = r"C:\\Users\\oliyn\\AppData\\Local\\Programs\\Python\\Python312\\python.exe"
+script_to_run = "YoutubeDL\\yt_manager.py"
 
 def buildTmp(filename):# Будує TMP з OutputJSON видалених відео
     with open(filename, 'w', encoding='utf-8') as OUT:
@@ -299,6 +304,8 @@ def down(filename):
     with open(filename, 'r', encoding='utf-8') as dd:
         delend(filename, 0)
         data3 = json.load(dd)
+        if os.path.exists(f'C:\\Users\\oliyn\\OneDrive\\Documents\\GitHub\\test.db'):
+            os.remove(f'C:\\Users\\oliyn\\OneDrive\\Documents\\GitHub\\test.db')
         for i, item in enumerate( data3): 
             video = client.get(item.get('video.url'))
             try:
@@ -311,7 +318,13 @@ def down(filename):
                         checkSizeAren(video.key, filename)
                     if filesize < 3300000:
                         print(f"{i}.Розмір файла < 3 мб - {filesize /1000 } кбайт")
-                        video.download(path = f'D:/Backup/{filename}/tmp_{video.key}.mp4',quality = Quality(240), downloader = download.FFMPEG)
+                        print(f"{video.url}")
+                        script_args = ["custom", video.url]
+                        command = [python_executable, script_to_run] + script_args
+                        result = subprocess.run(command, check=True, text=True, capture_output=True)
+                        print(f"Output:\n{result.stdout}")
+
+                        #video.download(path = f'D:/Backup/{filename}/tmp_{video.key}.mp4',quality = Quality(240), downloader = download.default)
                         checkSizeAren(video.key, filename)
                 if not os.path.exists(f'D:/Backup/{filename}/{video.key}.mp'):
                     video.download(path = f'D:/Backup/{filename}/tmp_{video.key}.mp4',quality = Quality(240), downloader = download.FFMPEG)
@@ -327,6 +340,24 @@ def down(filename):
 
 def checkSizeAren(nameKey, filename):
     try:
+        folder_path = 'ytdownloader\\pornhub\\custom\\'
+    # Перевірка наявності папки
+        if os.path.exists(folder_path) and os.path.isdir(folder_path):
+    # Отримання списку файлів у папці
+            files = [f for f in os.listdir(folder_path) if os.path.isfile(os.path.join(folder_path, f))]
+            if len(files) == 1:
+                # Виведення назви єдиного файлу
+                print("Назва файлу в папці:", files[0])
+                os.rename(f'ytdownloader\\pornhub\\custom\\{files[0]}', f'ytdownloader\\pornhub\\custom\\tmp_{nameKey}.mp4')
+                shutil.move(f'ytdownloader\\pornhub\\custom\\tmp_{nameKey}.mp4', f'D:/Backup/{filename}/')
+                #os.remove(f'ytdownloader\\pornhub\\custom\\{files[0]}')
+                for file in files:
+                    try:
+                        file_path = os.path.join(folder_path, file)
+                        os.remove(file_path)
+                        print(f"Файл {file} успішно видалено.")
+                    except Exception as e:
+                        print(f"Сталася помилка при видаленні файлу {file}: {e}")
         if os.path.exists(f'D:/Backup/{filename}/{nameKey}.mp') and os.path.exists(f'D:/Backup/{filename}/tmp_{nameKey}.mp4'):
                 if os.path.getsize(f'D:/Backup/{filename}/tmp_{nameKey}.mp4') > os.path.getsize(f'D:/Backup/{filename}/{nameKey}.mp'):
                     os.remove(f'D:/Backup/{filename}/{nameKey}.mp')
