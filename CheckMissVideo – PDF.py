@@ -312,10 +312,10 @@ def down(filename):
                 if os.path.exists(f'D:/Backup/{filename}/{video.key}.mp'):
                     duration = get_video_duration(f'D:/Backup/{filename}/{video.key}.mp')
                     filesize = os.path.getsize(f'D:/Backup/{filename}/{video.key}.mp')
-                    if duration < 9:
-                        print(f"{i}.Довжина файла < 9 - {duration} секунд")
-                        video.download(path = f'D:/Backup/{filename}/tmp_{video.key}.mp4',quality = Quality(240), downloader = download.FFMPEG)
-                        checkSizeAren(video.key, filename)
+                    #if duration < 13:
+                        #print(f"{i}.Довжина файла < 13 - {duration} секунд")
+                        #video.download(path = f'D:/Backup/{filename}/tmp_{video.key}.mp4',quality = Quality(240), downloader = download.FFMPEG)
+                        #checkSizeAren(video.key, filename)
                     if filesize < 3300000:
                         print(f"{i}.Розмір файла < 3 мб - {filesize /1000 } кбайт")
                         print(f"{video.url}")
@@ -335,6 +335,8 @@ def down(filename):
                       
             except:
                 print(f'download except - {video.url}')
+            #except Exception as e:
+                #raise e
                      
         print(f'download finish! /n')
 
@@ -351,13 +353,13 @@ def checkSizeAren(nameKey, filename):
                 os.rename(f'ytdownloader\\pornhub\\custom\\{files[0]}', f'ytdownloader\\pornhub\\custom\\tmp_{nameKey}.mp4')
                 shutil.move(f'ytdownloader\\pornhub\\custom\\tmp_{nameKey}.mp4', f'D:/Backup/{filename}/')
                 #os.remove(f'ytdownloader\\pornhub\\custom\\{files[0]}')
-                for file in files:
-                    try:
-                        file_path = os.path.join(folder_path, file)
-                        os.remove(file_path)
-                        print(f"Файл {file} успішно видалено.")
-                    except Exception as e:
-                        print(f"Сталася помилка при видаленні файлу {file}: {e}")
+            for file in files:
+                try:
+                    file_path = os.path.join(folder_path, file)
+                    os.remove(file_path)
+                    print(f"Файл {file} успішно видалено.")
+                except Exception as e:
+                    print(f"Сталася помилка при видаленні файлу {file}: {e}")
         if os.path.exists(f'D:/Backup/{filename}/{nameKey}.mp') and os.path.exists(f'D:/Backup/{filename}/tmp_{nameKey}.mp4'):
                 if os.path.getsize(f'D:/Backup/{filename}/tmp_{nameKey}.mp4') > os.path.getsize(f'D:/Backup/{filename}/{nameKey}.mp'):
                     os.remove(f'D:/Backup/{filename}/{nameKey}.mp')
@@ -365,8 +367,12 @@ def checkSizeAren(nameKey, filename):
                     print(f"{i}.Розмір нового файла - {os.path.getsize(f'D:/Backup/{filename}/{nameKey}.mp') /1000 } кбайт")
         if os.path.exists(f'D:/Backup/{filename}/tmp_{nameKey}.mp4'):
             os.rename(f'D:/Backup/{filename}/tmp_{nameKey}.mp4', f'D:/Backup/{filename}/{nameKey}.mp')
+        if os.path.exists(f'D:/Backup/{filename}/tmp_{nameKey}.mp4'):
+            os.remove(f'D:/Backup/{filename}/tmp_{nameKey}.mp4')
     except:
         print(f'checkSizeAren except, старий файл має більший розмір!')
+    #except Exception as e:
+        #raise e
 
 
 def delend(file_path, dela):   # Видалення(1) або добавлення(0) " ] " 
@@ -490,7 +496,7 @@ if __name__ == "__main__":
     #input("Costume.json",  "https://rt.pornhub.com/playlist/228798371", videoUrlCostume)
     #compare_json_files_by_keywords("MY.json", outputLog, videoUrlMy)
 
-    down("MY.json");
+    #down("MY.json");
     down("Costume.json");
     compare_json_files_by_keywords2()
     build_HTML("tmp.json")
