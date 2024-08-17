@@ -2248,7 +2248,7 @@ def get_ydl_opts(path, addons:json=None):
         - Youtube DLP opts dict
     """
     opts = {
-                'format': 'best',
+                'format': 'mp4[height=240]',
                 'outtmpl': path + '/%(title)s.%(ext)s',
                 'nooverwrites': True,
                 'no_warnings': True,
