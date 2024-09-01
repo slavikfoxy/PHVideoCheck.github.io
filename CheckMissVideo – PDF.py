@@ -290,7 +290,8 @@ def build_HTML(file1):
                         html_file.write(f'<p><a href="https://www.bing.com/search?q={element.get("video.title", {})}">link to BING</a></p>\n')
                         html_file.write(f'<p><a href="https://duckduckgo.com/?q={element.get("video.title", {})} {element.get("video.author", {})}">link to DUCKDUCKGO + Author</a></p>\n')
                         html_file.write(f'<p><a href="https://yandex.com/search/?text={element.get("video.title", {})} {element.get("video.author", {})}">link to YANDEX + Author</a></p>\n')
-                        html_file.write('</div>\n')
+                        html_file.write(f'<p><a href="https://trahkino.cc/search/{element.get("video.title", {})}">link to trahkino.cc </a></p>\n')
+                        html_file.write('</div>\n') 
 
                 # Додаємо кінець HTML-файлу
                 html_file.write('''
