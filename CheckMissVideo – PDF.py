@@ -291,7 +291,7 @@ def build_HTML(file1):
                         html_file.write(f'<p><a href="https://duckduckgo.com/?q={element.get("video.title", {})} {element.get("video.author", {})}">link to DUCKDUCKGO + Author</a></p>\n')
                         html_file.write(f'<p><a href="https://yandex.com/search/?text={element.get("video.title", {})} {element.get("video.author", {})}">link to YANDEX + Author</a></p>\n')
 
-                        html_file.write(f'<p><a href="https://trahkino.cc/search/{element.get("video.title", {}).lower().replace(" ", "-")}">link to trahkino.cc </a></p>\n')
+                        html_file.write(f'<p><a href="https://trahkino.cc/search/{element.get("video.title", {}).lower().replace(" ", "-")}/">link to trahkino.cc </a></p>\n')
                         html_file.write('</div>\n') 
 
                 # Додаємо кінець HTML-файлу
@@ -498,9 +498,9 @@ if __name__ == "__main__":
     #input("Costume.json",  "https://rt.pornhub.com/playlist/228798371", videoUrlCostume)
     #compare_json_files_by_keywords("MY.json", outputLog, videoUrlMy)
 
-    down("MY.json");
-    down("Costume.json");
-    compare_json_files_by_keywords2()
+    #down("MY.json");
+    #down("Costume.json");
+    #compare_json_files_by_keywords2()
     build_HTML("tmp.json")
     
 
