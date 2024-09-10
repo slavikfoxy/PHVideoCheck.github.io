@@ -467,13 +467,25 @@ def get_file_list(directory): #отиримання Списку файлів
       file_list.add(file)
   return file_list
 
+def DelVideo():
+        folder_path = 'ytdownloader\\pornhub\\custom\\'
+    # Перевірка наявності папки
+        if os.path.exists(folder_path) and os.path.isdir(folder_path):
+    # Отримання списку файлів у папці
+            files = [f for f in os.listdir(folder_path) if os.path.isfile(os.path.join(folder_path, f))]
+            for file in files:
+                try:
+                    file_path = os.path.join(folder_path, file)
+                    os.remove(file_path)
+                    print(f"Файл {file} успішно видалено.")
+                except Exception as e:
+                    print(f"Сталася помилка при видаленні файлу {file}: {e}")
+
 def get_video_duration(video_file):
   """
   Отримує тривалість відеофайлу mp4 за допомогою FFmpeg.
-
   Args:
     video_file: Шлях до відеофайлу mp4.
-
   Returns:
     Тривалість відео в секундах.
   """
@@ -498,8 +510,9 @@ if __name__ == "__main__":
     #input("Costume.json",  "https://rt.pornhub.com/playlist/228798371", videoUrlCostume)
     #compare_json_files_by_keywords("MY.json", outputLog, videoUrlMy)
 
-    down("MY.json");
-    down("Costume.json");
+    #down("MY.json");
+    #down("Costume.json");
+    DelVideo()
     compare_json_files_by_keywords2()
     build_HTML("tmp.json")
     
