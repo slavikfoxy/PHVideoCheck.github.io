@@ -513,7 +513,7 @@ if __name__ == "__main__":
     down("MY.json");
     #down("Costume.json");
     DelVideo()
-    #compare_json_files_by_keywords2()
+    compare_json_files_by_keywords2()
     build_HTML("tmp.json")
     
 
