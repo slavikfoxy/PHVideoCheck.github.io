@@ -511,7 +511,7 @@ if __name__ == "__main__":
     #compare_json_files_by_keywords("MY.json", outputLog, videoUrlMy)
 
     down("MY.json");
-    #down("Costume.json");
+    down("Costume.json");
     DelVideo()
     compare_json_files_by_keywords2()
     build_HTML("tmp.json")
