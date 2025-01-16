@@ -13,7 +13,7 @@ inputF = "listvideo.json"
 outputLog = 'outputJSON.json'
 pattern = r'"video\.url":\s+"(https://[^"]+)"'
 pattern2 = r'viewkey=(\w+)'
-client = phub.Client('allashevtcova@yandex.ru', 'Alla@2024', delay = 0.2)
+client = phub.Client('allashevtcova@yandex.ru', 'Alla@2024', delay = 0.2, None)
 videoUrlMy = set()
 videoUrlTail = set()
 videoUrlSocks = set()
