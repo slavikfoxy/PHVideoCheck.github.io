@@ -1,5 +1,5 @@
 requests==2.31.0
-git+https://github.com/EchterAlsFake/PHUB.git
+git+https://github.com/EchterAlsFake/PHUB.git@a389fd6d1de8769dc56b7ac49de3f4b9329f4067
 jsonschema==4.8.0
 beautifulsoup4==4.12.2
 ffmpeg-progress-yield==0.7.8
